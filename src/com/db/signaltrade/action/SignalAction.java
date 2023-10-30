@@ -1,4 +1,4 @@
-package signal;
+package com.db.signaltrade.action;
 
 import com.othercompany.lib.Algo;
 
