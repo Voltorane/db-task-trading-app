@@ -1,9 +1,6 @@
 package com.db.signaltrade;
 
-import com.db.signaltrade.action.DefaultSignalAction;
-import com.db.signaltrade.action.SignalAction;
-import com.db.signaltrade.action.SignalActionFactory;
-import com.db.signaltrade.action.SignalActionFactoryImpl;
+import com.db.signaltrade.action.*;
 import com.othercompany.lib.Algo;
 import com.othercompany.lib.SignalHandler;
 import org.junit.jupiter.api.Test;
@@ -55,7 +52,7 @@ class ApplicationTest {
     // Test covers only signals from the legacy application.
     @Test
     void testCompareWithLegacy() {
-        SignalHandler application = new Application();
+        SignalHandler application = new Application(signalActionFactory, new Algo());
         SignalHandler legacyApplication = new LegacyApplication();
 
         // initialize two buffers that will read the output of both applications
