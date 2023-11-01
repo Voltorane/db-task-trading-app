@@ -1,9 +1,11 @@
 package com.db.signaltrade.action;
 
 /**
- * Implementation of SignalFactory.
+ * Implementation of SignalFactory that use switch casing on action creation.
+ * Involves no startup overhead, however creating each new [SignalAction] is O(n) complex
+ * w. n - amount of registered signals
  */
-public class SignalActionFactoryImpl implements SignalActionFactory {
+public class SwitchCaseSignalActionFactory implements SignalActionFactory {
     @Override
     public SignalAction create(int value) {
 

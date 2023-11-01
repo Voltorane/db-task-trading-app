@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 import org.mockito.Mockito;
 
 class ApplicationTest {
-    private final SignalActionFactory signalActionFactory = new SignalActionFactoryImpl();
+    private final SignalActionFactory signalActionFactory = new SwitchCaseSignalActionFactory();
     private final Algo algoMock = Mockito.mock(Algo.class);
 
     // Legacy application that should be replaced by the new application.
