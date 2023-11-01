@@ -7,17 +7,23 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
 class ApplicationTest {
-    private final SignalActionFactory signalActionFactory = new SwitchCaseSignalActionFactory();
     private final Algo algoMock = Mockito.mock(Algo.class);
+
+    static Stream<SignalActionFactory> signalActionFactoryProvider() {
+        return Stream.of(new SwitchCaseSignalActionFactory(), new MapSignalActionFactory());
+    }
 
     // Legacy application that should be replaced by the new application.
     private static class LegacyApplication implements SignalHandler {
@@ -50,8 +56,10 @@ class ApplicationTest {
     }
 
     // Test covers only signals from the legacy application.
-    @Test
-    void testCompareWithLegacy() {
+    // Temporary test, until the team completes migration to new interfaces
+    @ParameterizedTest
+    @MethodSource("signalActionFactoryProvider")
+    void testCompareWithLegacy(SignalActionFactory signalActionFactory) {
         SignalHandler application = new Application(signalActionFactory, new Algo());
         SignalHandler legacyApplication = new LegacyApplication();
 
@@ -87,8 +95,9 @@ class ApplicationTest {
         verify(algoMock, never()).submitToMarket();
     }
 
-    @Test
-    void testSignalAction_1() {
+    @ParameterizedTest
+    @MethodSource("signalActionFactoryProvider")
+    void testSignalAction_1(SignalActionFactory signalActionFactory) {
         SignalAction action = signalActionFactory.create(1);
         action.perform(algoMock);
 
@@ -98,8 +107,9 @@ class ApplicationTest {
         verify(algoMock).submitToMarket();
     }
 
-    @Test
-    void testSignalAction_2() {
+    @ParameterizedTest
+    @MethodSource("signalActionFactoryProvider")
+    void testSignalAction_2(SignalActionFactory signalActionFactory) {
         SignalAction action = signalActionFactory.create(2);
         action.perform(algoMock);
 
@@ -108,8 +118,9 @@ class ApplicationTest {
         verify(algoMock).submitToMarket();
     }
 
-    @Test
-    void testSignalAction_3() {
+    @ParameterizedTest
+    @MethodSource("signalActionFactoryProvider")
+    void testSignalAction_3(SignalActionFactory signalActionFactory) {
         SignalAction action = signalActionFactory.create(3);
         action.perform(algoMock);
 
